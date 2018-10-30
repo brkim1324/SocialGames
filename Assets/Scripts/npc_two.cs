@@ -5,7 +5,7 @@ using UnityEngine;
 public class npc_two : MonoBehaviour
 {
 
-	public static int pinkStress;
+	public static float pinkStress;
 	private float pinkSpeed;
 	public Transform pink;
 	public Transform pinkWork;
@@ -17,9 +17,11 @@ public class npc_two : MonoBehaviour
 
 	public Transform chicken;
 	public float pinkIncome;
+	private float randomDecisionAtWork;
 
+	private bool reachedWork = false;
 
-	// Use this for initialization
+	
 	void Start()
 	{
 		pinkStress = 0;
@@ -27,14 +29,12 @@ public class npc_two : MonoBehaviour
 
 	}
 
-	// Update is called once per frame
+	
 	void Update()
 	{
-		// STEP 1: define a Ray...
-		// *not* Vector3.forward, that's the WORLD'S forward
-		// transform.forward = this object's current forward
 		
-		Vector3 targetDir = pinkWork.position - transform.position;
+		
+		
 
 		if (pinkStress <= 40)
 		{
@@ -42,29 +42,36 @@ public class npc_two : MonoBehaviour
 			transform.position = Vector3.MoveTowards(transform.position, pinkWork.position, 0.2f * speed);
 		}
 
-
-		if (Vector3.Distance(transform.position, pinkWork.position) <= 5.0f)
+		if (reachedWork == false && (transform.position - pinkWork.position).magnitude < 2f)
 		{
+
+			reachedWork = true;
 			
 			
 			//Destroy(work);
 			pinkStress = pinkStress + 45;
 			pinkIncome = pinkIncome + 10;
 
-		}
+			 randomDecisionAtWork = Random.Range(0.0f, 1.0f);
 
-		if (pinkStress >= 40)
+			
+		}
+		
+		if (reachedWork && pinkStress >= 40)
 		{
-			float random = Random.Range(0.0f, 1.0f);
-			if (random <= 0.5f)
+			
+			if (randomDecisionAtWork <= 0.5f)
 			{
-				Vector3 newDir = Vector3.RotateTowards(transform.forward, pinkWork.position,  speed, 0f);
+					
+					
+				Vector3 newDir = Vector3.RotateTowards(transform.forward, pinkWork.position, speed, 0f);
 				transform.position = Vector3.MoveTowards(transform.position, pinkHome.position, 0.2f * speed);
-				
+
 			}
-			if(random > 0.5f)
+
+			if (randomDecisionAtWork > 0.5f)
 			{
-				Vector3 newDir = Vector3.RotateTowards(transform.forward, pinkWork.position,  speed, 0f);
+				Vector3 newDir = Vector3.RotateTowards(transform.forward, pinkWork.position, speed, 0f);
 				transform.position = Vector3.MoveTowards(transform.position, pinkStreet.position, 0.2f * speed);
 			}
 		}

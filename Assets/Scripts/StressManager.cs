@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 
 public class StressManager : MonoBehaviour {
-	public static int score;        // The player's score.
+	public static float score;        // The player's score.
+	//public static float income;
 
 
 	public Text uitext;  
@@ -31,6 +32,7 @@ public class StressManager : MonoBehaviour {
 
 		// Set the displayed text to be the word "Score" followed by the score value.
 		uitext.text = "My Stress Level " + score;
-	
+		//uitext.text = "\nIncome:" + income;
+
 	}
 }

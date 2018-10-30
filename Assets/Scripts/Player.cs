@@ -5,11 +5,13 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-	public float playerStress;
+	public static float playerStress;
 	public float moveSpeed = 0.1f;
 	public Transform player;
 	public Transform tv;
+	public Transform work;
 	private float coolDown;
+	
 	
 	// Use this for initialization
 	void Start ()
@@ -44,19 +46,23 @@ public class Player : MonoBehaviour
 			
 		}
 
-		playerStress += Time.deltaTime;
+		
 
 		
-		if (playerStress >= 100)
-		{
-			float newSpeed = moveSpeed;
-			newSpeed = 0.1f;
-		}
+		
 
 		if (Vector3.Distance(player.position, tv.position) <= 6f)
 		{
-			playerStress -= 20;
+			StressManager.score -= 0.1f;
 		}
+		
+		if (Vector3.Distance(player.position, work.position) <= 6f)
+		{
+			StressManager.score += 0.8f;
+			
+		}
+		
+		
 
 		
 
